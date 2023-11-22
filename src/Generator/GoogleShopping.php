@@ -21,7 +21,7 @@ use Plenty\Plugin\Log\Loggable;
 use ElasticExportGoogleShopping\Helper\ImageHelper;
 
 /**
- * Class GoogleShopping
+ * Class GoogleShopping 
  *
  * @package ElasticExportGoogleShopping\Generator
  */
@@ -300,7 +300,7 @@ class GoogleShopping extends CSVPluginGenerator
         $preloadedPrices = (array)$this->variationExportService->getData('VariationSalesPrice', $variation['id']);
         
         $salesPriceData = $this->priceDetectionService->getPriceByPreloadList($preloadedPrices, PriceDetectionService::SALES_PRICE);
-        
+
         if($salesPriceData['price'] > 0) {
         	$variationPrice = $this->elasticExportPriceHelper->convertPrice($salesPriceData['price'], $this->priceDetectionService->getCurrency(), $settings, 2, '.');
             $variationPrice = $variationPrice . ' ' . $this->priceDetectionService->getCurrency();
@@ -315,12 +315,22 @@ class GoogleShopping extends CSVPluginGenerator
         } else {
             $salePrice = '';
         }
-            
-        // FIXME non save condition handling
-        if($salePrice >= $variationPrice || $salePrice <= 0.00)
+
+        // GET UVP & Price 
+        /**
+         *  price:"399,96"
+         *  recommendedRetailPrice:"499,95"
+         *  specialPrice:""
+         *  vatValue:19
+         *  currency:"EUR"
+         */
+        $priceList = $this->elasticExportPriceHelper->getPriceList($variation, $settings, 2, '.');
+        $this->getLogger(__METHOD__)->error('BK Export: PriceList', ['raw' => $priceList]);
+        if($priceList['recommendedRetailPrice'] > 0.00 && $priceList['recommendedRetailPrice'] > $salesPriceData['price'])
         {
-        	$salePrice = '';
-		}
+            $variationPrice =  $priceList['recommendedRetailPrice'] . ' ' . $this->priceDetectionService->getCurrency();
+            $salePrice = $salesPriceData['price'] . ' ' . $this->priceDetectionService->getCurrency();
+        }
 
         $shippingCost = $this->elasticExportHelper->getShippingCost($variation['data']['item']['id'], $settings);
 

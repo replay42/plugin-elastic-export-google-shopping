@@ -325,7 +325,6 @@ class GoogleShopping extends CSVPluginGenerator
          *  vatValue: 19
          *  currency: "EUR"
          */
-        $this->getLogger(__METHOD__)->error('BK Export: PriceList', ['raw' => $priceList]);
         if($priceList['recommendedRetailPrice'] > 0.00 && $priceList['recommendedRetailPrice'] > $salesPriceData['price'])
         {
             $variationPrice =  $priceList['recommendedRetailPrice'] . ' ' . $this->priceDetectionService->getCurrency();

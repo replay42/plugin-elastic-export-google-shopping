@@ -317,14 +317,14 @@ class GoogleShopping extends CSVPluginGenerator
         }
 
         // GET UVP & Price 
-        /**
-         *  price:"399,96"
-         *  recommendedRetailPrice:"499,95"
-         *  specialPrice:""
-         *  vatValue:19
-         *  currency:"EUR"
-         */
         $priceList = $this->elasticExportPriceHelper->getPriceList($variation, $settings, 2, '.');
+        /**
+         *  price: "399.96"
+         *  recommendedRetailPrice: "499.95"
+         *  specialPrice: ""
+         *  vatValue: 19
+         *  currency: "EUR"
+         */
         $this->getLogger(__METHOD__)->error('BK Export: PriceList', ['raw' => $priceList]);
         if($priceList['recommendedRetailPrice'] > 0.00 && $priceList['recommendedRetailPrice'] > $salesPriceData['price'])
         {

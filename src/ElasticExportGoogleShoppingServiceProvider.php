@@ -14,7 +14,7 @@ class ElasticExportGoogleShoppingServiceProvider extends DataExchangeServiceProv
 	public function exports(ExportPresetContainer $container)
 	{
 		$container->add(
-			'BK GoogleShopping Plugin',
+			'BK GoogleShopping Plugin v2',
 			'ElasticExportGoogleShopping\ResultField\GoogleShopping',
 			'ElasticExportGoogleShopping\Generator\GoogleShopping',
             '',

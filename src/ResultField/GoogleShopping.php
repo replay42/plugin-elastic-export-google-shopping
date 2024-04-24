@@ -156,6 +156,12 @@ class GoogleShopping extends ResultFields
 				'variation.releasedAt',
                 'variation.stockLimitation',
                 'variation.weightG',
+                'variation.estimatedAvailableAt',
+
+                // Supplier delivery time in days
+                'variationSuppliers.*',
+                'variationProperties.property.id',
+                'variationProperties.values.*',
 
                 // Images
                 'images.all.urlMiddle',
@@ -251,7 +257,8 @@ class GoogleShopping extends ResultFields
 			'variation.releasedAt',
 			'variation.stockLimitation',
 			'variation.weightG',
-
+            'variation.estimatedAvailableAt',
+            
 			// Unit
 			'unit.content',
 			'unit.id',
@@ -267,6 +274,9 @@ class GoogleShopping extends ResultFields
 			'keys' => [
 				// Attributes
 				'attributes',
+
+                // Suppliers
+                'variationSuppliers',
 
                 // Properties
                 'properties',
@@ -296,6 +306,10 @@ class GoogleShopping extends ResultFields
 					'attributeId',
 					'valueId',
 				],
+
+                'variationSuppliers' => [
+                    'deliveryTimeInDays'
+                ],
 
                 // Proprieties
                 'properties' => [

@@ -361,9 +361,19 @@ class GoogleShopping extends CSVPluginGenerator
         $imageList = $this->elasticExportHelper->getImageListInOrder($variation, $settings, 11, 'variationImages');
         $images = $this->imageHelper->getImages($imageList);
 
+        // Custom Title
+        $title = $this->elasticExportHelper->getMutatedName($variation, $settings, 256);
+        $propertyTitle = $this->bkHelper->getPropertyValue($variation['data']['variationProperties'], 276); // Google Shopping: Produktname
+        if(!is_null($propertyTitle) && trim($propertyTitle) != "")
+        {
+            $title = $propertyTitle;
+            if(strlen($propertyTitle) > 256)
+                $title = substr($title, 0, 252)."...";
+        }
+
         $data = [
             'id' 						=> $this->elasticExportHelper->generateSku($variation['id'], self::GOOGLE_SHOPPING, 0, $variation['data']['skus']['sku']),
-            'title' 					=> $this->elasticExportHelper->getMutatedName($variation, $settings, 256),
+            'title' 					=> $title,
             'description'				=> $this->getDescription($variation, $settings),
             'google_product_category'	=> $this->elasticExportHelper->getCategoryMarketplace((int)$variation['data']['defaultCategories'][0]['id'], (int)$settings->get('plentyId'), 129),
             'product_type'				=> $this->elasticExportHelper->getCategory((int)$variation['data']['defaultCategories'][0]['id'], (string)$settings->get('lang'), (int)$settings->get('plentyId')),

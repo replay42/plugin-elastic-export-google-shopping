@@ -550,7 +550,8 @@ class GoogleShopping extends CSVPluginGenerator
             'custom_label_2',
             'custom_label_3',
             'custom_label_4',
-            'availability_date'
+            'availability_date',
+            'promotion_id'
         ];
     }
 }

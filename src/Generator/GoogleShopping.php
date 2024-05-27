@@ -414,6 +414,7 @@ class GoogleShopping extends CSVPluginGenerator
             'custom_label_3'			=> $this->bkHelper->getPropertyValue($variation['data']['variationProperties'], 273),
             'custom_label_4'			=> $this->bkHelper->getPropertyValue($variation['data']['variationProperties'], 274),
 			'availability_​date'		 => $this->elasticExportHelper->getReleaseDate($variation),
+            'promotion_id'              => $this->bkHelper->getPropertyValue($variation['data']['variationProperties'], 278),
         ];
 
         $this->addCSVContent(array_values($data));
